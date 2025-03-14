@@ -17,7 +17,7 @@ namespace Polizia.Services
         {
             return await _context.Verbales.ToListAsync();
         }
-        public async Task<bool> AddTipoViolazione(AddVerbaleViewModel addTipoVerbaleViewModel)
+        public async Task<bool> AddVerbale(AddVerbaleViewModel addTipoVerbaleViewModel)
         {
             var verbale = new Verbale()
             {

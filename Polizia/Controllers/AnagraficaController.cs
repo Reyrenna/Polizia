@@ -1,24 +1,46 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Polizia.Services;
+using Polizia.ViewModels;
+using Polizia.Models;
 
-namespace Polizia.Controllers
+namespace Polizia.Controllers;
+
+[Route("/Anagrafica")]
+
+public class AnagraficaController : Controller
 {
-    [AutoValidateAntiforgeryToken]
-    public class AnagraficaController : Controller
+    private readonly AnagraficaService _anagraficaService;
+    public AnagraficaController(AnagraficaService anagrafeService)
     {
-        private readonly string _connectionString;
+        _anagraficaService = anagrafeService;
+    }
 
-        public AnagraficaController()
+    public async Task<IActionResult> Index()
+    {
+        return View(await _anagraficaService.GetAnagrafiche());
+    }
+
+    [Route("AddAnagrafica")]
+    public async Task<IActionResult> Add()
+    {
+        return View();
+    }
+
+    [HttpPost("AddAnagrafica")]
+    public async Task<IActionResult> Add(AddAnagraficaViewModel addAnagraficaViewModel)
+    {
+        if (ModelState.IsValid)
         {
-            var configuration = new ConfigurationBuilder()
-                     .SetBasePath(Directory.GetCurrentDirectory())
-                     .AddJsonFile("appsettings.json", false, true)
-                     .Build();
-
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            await _anagraficaService.AddAnagrafica(addAnagraficaViewModel);
+            return RedirectToAction("Index");
         }
+        return View(addAnagraficaViewModel);
+    }
 
-
-        [HttpGet]
-
+    [Route("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _anagraficaService.DeleteAnagrafica(id);
+        return RedirectToAction("Index");
     }
 }

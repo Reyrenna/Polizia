@@ -1,8 +1,24 @@
-﻿@{
+﻿@model IEnumerable<Polizia.Models.Verbale>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <p>BENVENUTO NEL DATABASE DEI VERBALI</p>
+
+    @{
+        foreach (var verbale in Model.ToList())
+        {
+            <div class="card">
+            <div class="card-body">
+            <p>
+
+            
+            </p>
+            </div>
+            </div>
+        }
+    }
 </div>
 
